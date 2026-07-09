@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="TransportationManagementSystem.Mvc.Tests/TransportationManagementSystem.Mvc.Tests.csproj" />
+  <Project Path="TransportationManagementSystem.Mvc/TransportationManagementSystem.Mvc.csproj" />
+</Solution>

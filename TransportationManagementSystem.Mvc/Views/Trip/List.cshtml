@@ -1,0 +1,90 @@
+﻿@using TransportationManagementSystem.Data.DTOs
+@using TransportationManagementSystem.Data.Grid
+@using TransportationManagementSystem.ViewModels
+@model TransportationManagementSystem.ViewModels.TripListViewModel
+
+@{
+    ViewData["Title"] = " | Trip List";
+
+    // aliases to make paging, sorting, and filtering code shorter
+    RideDictionary current = Model.CurrentRoute;
+    RideDictionary routes = Model.CurrentRoute.Clone();
+}
+
+<h1 class="text-center py-3" style="color: white; margin: 0; border-bottom: 2px solid black; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    background: linear-gradient(180deg, #1e3a5f, #007bff);">
+    Trip List
+</h1>
+
+@* filter form *@
+<form asp-action="Filter" method="post" class="form-inline">
+
+    <label style="font-weight:bold" m-2>Driver:</label>
+    <select name="filter" class="form-control"
+            asp-items="@(new SelectList(
+                                       Model.Drivers, "DriverId", "FullName", current.DriverFilter))">
+        <option value="@TripGridDTO.DefaultFilter">All</option>
+    </select>
+
+    <label style="font-weight:bold" m-2>Date:</label>
+    <select name="filter" class="form-control"
+            asp-items="@(new SelectList(
+                                       Model.TripDates, "TripDateId", "Date", current.TripDateFilter))">
+        <option value="@TripGridDTO.DefaultFilter">All</option>
+    </select>
+
+    <button type="submit" class="btn bg-custom m-2">Filter</button>
+    <button type="submit" class="btn bg-custom" name="clear" value="true">Clear</button>
+
+</form>
+
+<table class="table table-striped table-bordered">
+    @* for each table column, update the route dictionary with the field to sort by, and then use
+        that route dictionary and the current route to create route segments for sorting link *@
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @{
+                    routes.SetSortAndDirection(nameof(Trip.Driver.FullName), current);
+                }
+                <a asp-action="List" asp-all-route-data="@routes"
+                   style="color:aqua"></a>
+            </th>
+            <th>Driver</th>
+            <th>Date</th>
+            <th>Trip Actual Start</th>
+            <th>Scheduled Pickup</th>
+            <th>Pickup Arrival</th>
+            <th>Actual Pickup</th>
+            <th>Actual DropOff</th>
+            <th>Scheduled DropOff</th>
+            <th>Trip Actual End</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Trip trip in Model.Trips)
+        {
+            <tr>
+                <td>
+                    <a type="hidden" asp-action="Details" asp-route-id="@trip.TripId"></a>
+                </td>
+                <td>@trip.Driver.FullName</td>
+                <td>@trip.TripDate.Date.ToShortDateString()</td>
+                <td>@trip.TripActualStart</td>
+                <td>@trip.ScheduledPickup</td>
+                <td>@trip.PickupArrival</td>
+                <td>@trip.ActualPickup</td>
+                <td>@trip.ActualDropoff</td>
+                <td>@trip.ScheduledDropoff</td>
+                <td>@trip.TripActualEnd</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_Pagination" model="@(new PaginationViewModel {
+                                       CurrentRoute = Model.CurrentRoute,
+                                       TotalPages = Model.TotalPages
+                                   })" />
+
+
