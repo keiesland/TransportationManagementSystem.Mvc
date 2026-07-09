@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using TransportationManagementSystem.Mvc.Data.DTOs;
 
-namespace TransportationManagementSystem.Data.DTOs
+namespace TransportationManagementSystem.Mvc.Data.DTOs
 {
     // Inherits the general purpose GridDTO class and adds game-specific 
     // properties for the filtering route segments defined in the Startup.cs file. 

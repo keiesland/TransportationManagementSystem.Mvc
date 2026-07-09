@@ -1,11 +1,11 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using Microsoft.EntityFrameworkCore;
-using TransportationManagementSystem.Repositories.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
 
-namespace TransportationManagementSystem.Tests.Integration.Data
+namespace TransportationManagementSystem.Mvc.Tests.Integration.Data
 {
     public class RepositoryBulkOperationTests
     {

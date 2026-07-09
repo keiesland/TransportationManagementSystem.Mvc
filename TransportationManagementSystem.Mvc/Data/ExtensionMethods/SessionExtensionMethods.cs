@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace TransportationManagementSystem.Data.ExtensionMethods
+namespace TransportationManagementSystem.Mvc.Data.ExtensionMethods
 {
     // same as in chapter - make it easier to get and set objects in session
     public static class SessionExtensionMethods

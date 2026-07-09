@@ -1,0 +1,23 @@
+﻿@model List<TransportationManagementSystem.Mvc.Data.DTOs.ValidationError>
+
+<h4 class="text-danger">@Model.Count error(s) found. Please correct your Excel file and re-upload.</h4>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Driver</th>
+            <th>Date</th>
+            <th>Issue</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var error in Model)
+        {
+            <tr>
+                <td>@error.Driver</td>
+                <td>@error.TripDate.ToShortDateString()</td>
+                <td>@error.Message</td>
+            </tr>
+        }
+    </tbody>
+</table>

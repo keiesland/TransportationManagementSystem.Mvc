@@ -1,7 +1,7 @@
-﻿using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
+﻿using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories;
 
-namespace TransportationManagementSystem.UnitOfWork
+namespace TransportationManagementSystem.Mvc.UnitOfWork
 {
     public interface ITripUnitOfWork
     {

@@ -1,7 +1,9 @@
-﻿namespace TransportationManagementSystem.Services.Interfaces
+﻿using TransportationManagementSystem.Mvc.Data.DTOs;
+
+namespace TransportationManagementSystem.Mvc.Services.Interfaces
 {
     public interface IFileImportService
     {
-        Task<int> ImportTripsAsync(Stream fileStream, string fileExtension, CancellationToken ct);
+        Task<ImportResult> ImportTripsAsync(Stream fileStream, string fileExtension, CancellationToken ct);
     }
 }

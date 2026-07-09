@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TransportationManagementSystem.Models
+namespace TransportationManagementSystem.Mvc.Entities
 {
     public class TripDate
     {

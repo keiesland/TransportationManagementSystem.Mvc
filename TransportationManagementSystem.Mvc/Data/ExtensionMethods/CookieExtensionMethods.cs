@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace TransportationManagementSystem.Data.ExtensionMethods
+namespace TransportationManagementSystem.Mvc.Data.ExtensionMethods
 {
     // extension methods that make working with request and response cookies 
     // similar to working with session

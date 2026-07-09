@@ -1,4 +1,4 @@
-﻿namespace TransportationManagementSystem.Data.DTOs
+﻿namespace TransportationManagementSystem.Mvc.Data.DTOs
 {
     // General purpose class for model binding the paging and sorting route segments
     // defined in the Startup.cs file - can be used for any web application. Doesn't

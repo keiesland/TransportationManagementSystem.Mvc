@@ -1,19 +1,15 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Data.DTOs;
-using TransportationManagementSystem.Data.Grid;
-using TransportationManagementSystem.Data.Query;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories.Interfaces;
-using TransportationManagementSystem.Services.Interfaces;
-using TransportationManagementSystem.UnitOfWork;
-using TransportationManagementSystem.UtilityClasses;
-using TransportationManagementSystem.ViewModels;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Data.DTOs;
+using TransportationManagementSystem.Mvc.Data.Grid;
+using TransportationManagementSystem.Mvc.Data.Query;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
+using TransportationManagementSystem.Mvc.UnitOfWork;
+using TransportationManagementSystem.Mvc.Utilities;
+using TransportationManagementSystem.Mvc.ViewModels;
 
-namespace TransportationManagementSystem.Services
+namespace TransportationManagementSystem.Mvc.Services
 {
 
     public class TripService : ITripService
@@ -68,7 +64,7 @@ namespace TransportationManagementSystem.Services
         /// <summary>
         /// Applies or clears filter criteria and saves to session
         /// </summary>
-        public RideDictionary ApplyFilter(string[] filter, bool clear, ISession session)
+        public TripDictionary ApplyFilter(string[] filter, bool clear, ISession session)
         {
             var builder = new TripGridBuilder(session);
 

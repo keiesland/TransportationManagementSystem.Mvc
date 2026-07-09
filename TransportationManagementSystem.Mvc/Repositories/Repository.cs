@@ -1,9 +1,8 @@
-﻿using TransportationManagementSystem.Data.Query;
-using TransportationManagementSystem.Repositories.Interfaces;
-using TransportationManagementSystem.Tests.TestHelpers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TransportationManagementSystem.Mvc.Data.Query;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
 
-namespace TransportationManagementSystem.Repositories
+namespace TransportationManagementSystem.Mvc.Repositories
 {
     /// <summary>
     /// Generic repository implementation. ApplyOptions() matches the confirmed

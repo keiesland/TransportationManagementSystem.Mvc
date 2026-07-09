@@ -1,4 +1,4 @@
-namespace TransportationManagementSystem.ViewModels
+namespace TransportationManagementSystem.Mvc.ViewModels
 {
     public class ErrorViewModel
     {

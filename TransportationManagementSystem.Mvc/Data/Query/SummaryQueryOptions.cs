@@ -1,7 +1,7 @@
-﻿using TransportationManagementSystem.Data.Grid;
-using TransportationManagementSystem.Models;
+﻿using TransportationManagementSystem.Mvc.Data.Grid;
+using TransportationManagementSystem.Mvc.Entities;
 
-namespace TransportationManagementSystem.Data.Query
+namespace TransportationManagementSystem.Mvc.Data.Query
 {
     public class SummaryQueryOptions : QueryOptions<Summary>
     {

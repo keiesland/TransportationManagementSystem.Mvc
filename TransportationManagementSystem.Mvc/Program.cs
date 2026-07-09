@@ -1,11 +1,10 @@
-using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Repositories;
-using TransportationManagementSystem.Repositories.Interfaces;
-using TransportationManagementSystem.Services;
-using TransportationManagementSystem.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Services;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
+using TransportationManagementSystem.Mvc.UnitOfWork;
 
-namespace TransportationManagementSystem
+namespace TransportationManagementSystem.Mvc
 {
     public class Program
     {
@@ -21,14 +20,17 @@ namespace TransportationManagementSystem
             // service collection at once, which EF Core does not allow.
             builder.Services.AddDbContext<TripContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-  
+
 
             // For example, if we want a new instance of the repository for each HTTP request, we can use AddScoped.
             // If we want a single instance of the repository for the entire application, we can use AddSingleton.
-            builder.Services.AddScoped<ITripService, TripService>();
-            builder.Services.AddScoped<ISummaryService, SummaryService>();
-            builder.Services.AddScoped<IFileImportService, FileImportService>();
+            builder.Services.AddScoped<IAggregationService, AggregationService>();
             builder.Services.AddSingleton<IExcelExportService, ExcelExportService>();
+            builder.Services.AddScoped<IFileImportService, FileImportService>();
+            builder.Services.AddScoped<ISummaryService, SummaryService>();
+            builder.Services.AddScoped<ITripService, TripService>();
+            builder.Services.AddScoped<ITripUnitOfWork, TripUnitOfWork>();
+            builder.Services.AddScoped<IValidationService, ValidationService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

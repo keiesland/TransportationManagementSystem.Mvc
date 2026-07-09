@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace TransportationManagementSystem.Repositories.Interfaces
+namespace TransportationManagementSystem.Mvc.Repositories.Interfaces
 {
     /// <summary>
     /// Wraps EFCore.BulkExtensions calls behind an interface so Repository&lt;T&gt;

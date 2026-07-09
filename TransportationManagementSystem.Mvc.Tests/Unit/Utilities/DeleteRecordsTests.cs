@@ -1,16 +1,12 @@
-﻿using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using TransportationManagementSystem.Repositories.Interfaces;
-using TransportationManagementSystem.UnitOfWork;
-using TransportationManagementSystem.UtilityClasses;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
+using TransportationManagementSystem.Mvc.UnitOfWork;
+using TransportationManagementSystem.Mvc.Utilities;
 
-namespace TransportationManagementSystem.Tests.Unit.Utilities
+namespace TransportationManagementSystem.Mvc.Tests.Unit.Utilities
 {
     public class DeleteRecordsTests
     {

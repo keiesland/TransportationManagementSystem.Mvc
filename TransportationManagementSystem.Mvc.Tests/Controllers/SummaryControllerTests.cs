@@ -1,12 +1,12 @@
-﻿using TransportationManagementSystem.Controllers;
-using TransportationManagementSystem.Data.DTOs;
-using TransportationManagementSystem.Services.Interfaces;
-using TransportationManagementSystem.ViewModels;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using TransportationManagementSystem.Mvc.Controllers;
+using TransportationManagementSystem.Mvc.Data.DTOs;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
+using TransportationManagementSystem.Mvc.ViewModels;
 
-namespace TransportationManagementSystem.Tests.Controllers
+namespace TransportationManagementSystem.Mvc.Tests.Controllers
 {
     public class SummaryControllerTests
     {

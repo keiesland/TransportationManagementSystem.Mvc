@@ -1,7 +1,7 @@
-﻿using TransportationManagementSystem.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TransportationManagementSystem.Mvc.Entities;
 
-namespace TransportationManagementSystem.Data
+namespace TransportationManagementSystem.Mvc.Data
 {
     public class TripContext : DbContext
     {
@@ -15,8 +15,7 @@ namespace TransportationManagementSystem.Data
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripDate> TripDates { get; set; }
         public DbSet<Summary> Summaries { get; set; }
-
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -27,7 +26,5 @@ namespace TransportationManagementSystem.Data
             modelBuilder.Entity<Trip>()
                 .HasIndex(t => new { t.DriverId, t.TripDateId, t.TripActualStart, t.ScheduledPickup });
         }
-
-
     }
 }

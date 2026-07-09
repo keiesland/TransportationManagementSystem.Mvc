@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TransportationManagementSystem.Tests.TestHelpers
+namespace TransportationManagementSystem.Mvc.Tests.TestHelpers
 {
     public class TestDataBuilders
     {

@@ -1,4 +1,4 @@
-﻿namespace TransportationManagementSystem.ViewModels
+﻿namespace TransportationManagementSystem.Mvc.ViewModels
 {
     public static class Nav
     {

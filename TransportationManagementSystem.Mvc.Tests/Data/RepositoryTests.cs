@@ -1,13 +1,10 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Data.Query;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Data.Query;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories;
 
-namespace TransportationManagementSystem.Tests.Data
+namespace TransportationManagementSystem.Mvc.Tests.Data
 {
     public class RepositoryTests
     {

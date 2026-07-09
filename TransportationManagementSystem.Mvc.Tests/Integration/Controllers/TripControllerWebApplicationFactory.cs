@@ -1,10 +1,10 @@
-﻿using TransportationManagementSystem.Data;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TransportationManagementSystem.Mvc.Data;
 
-namespace TransportationManagementSystem.Tests.Integration.Controllers
+namespace TransportationManagementSystem.Mvc.Tests.Integration.Controllers
 {
     /// <summary>
     /// Customizes the real app's startup for testing: swaps the real SQL

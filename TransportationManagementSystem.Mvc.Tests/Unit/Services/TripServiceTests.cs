@@ -1,15 +1,14 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Data.DTOs;
-using TransportationManagementSystem.Data.Grid;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories.Interfaces;
-using TransportationManagementSystem.Services;
-using TransportationManagementSystem.Tests.TestHelpers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Data.DTOs;
+using TransportationManagementSystem.Mvc.Data.Grid;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
+using TransportationManagementSystem.Mvc.Services;
+using TransportationManagementSystem.Mvc.Tests.TestHelpers;
 
-
-namespace TransportationManagementSystem.Tests.Unit.Services
+namespace TransportationManagementSystem.Mvc.Tests.Unit.Services
 {
     public class TripServiceTests : IDisposable
     {

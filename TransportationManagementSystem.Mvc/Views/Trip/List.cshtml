@@ -1,14 +1,15 @@
-﻿@using TransportationManagementSystem.Data.DTOs
-@using TransportationManagementSystem.Data.Grid
-@using TransportationManagementSystem.ViewModels
-@model TransportationManagementSystem.ViewModels.TripListViewModel
+﻿
+@using TransportationManagementSystem.Mvc.Data.DTOs
+@using TransportationManagementSystem.Mvc.Data.Grid
+@using TransportationManagementSystem.Mvc.ViewModels
+@model TransportationManagementSystem.Mvc.ViewModels.TripListViewModel
 
 @{
     ViewData["Title"] = " | Trip List";
 
     // aliases to make paging, sorting, and filtering code shorter
-    RideDictionary current = Model.CurrentRoute;
-    RideDictionary routes = Model.CurrentRoute.Clone();
+    TripDictionary current = Model.CurrentRoute;
+    TripDictionary routes = Model.CurrentRoute.Clone();
 }
 
 <h1 class="text-center py-3" style="color: white; margin: 0; border-bottom: 2px solid black; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -86,5 +87,3 @@
                                        CurrentRoute = Model.CurrentRoute,
                                        TotalPages = Model.TotalPages
                                    })" />
-
-

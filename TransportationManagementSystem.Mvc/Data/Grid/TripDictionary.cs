@@ -1,7 +1,7 @@
-﻿using TransportationManagementSystem.Data.DTOs;
-using TransportationManagementSystem.Data.ExtensionMethods;
+﻿using TransportationManagementSystem.Mvc.Data.DTOs;
+using TransportationManagementSystem.Mvc.Data.ExtensionMethods;
 
-namespace TransportationManagementSystem.Data.Grid
+namespace TransportationManagementSystem.Mvc.Data.Grid
 {
     public static class FilterPrefix
     {
@@ -15,7 +15,7 @@ namespace TransportationManagementSystem.Data.Grid
     // inherits dictionary of strings, adds a Clone() method. Adds properties
     // to get and set general paging, sorting, and filtering values from dictionary. 
     // Adds methods to set sort field value and sort direction value based on sort field, re-set filter values.
-    public class RideDictionary : Dictionary<string, string>
+    public class TripDictionary : Dictionary<string, string>
     {
         public int PageNumber
         {
@@ -41,7 +41,7 @@ namespace TransportationManagementSystem.Data.Grid
             set => this[nameof(GridDTO.SortDirection)] = value;
         }
 
-        public void SetSortAndDirection(string fieldName, RideDictionary current)
+        public void SetSortAndDirection(string fieldName, TripDictionary current)
         {
             this[nameof(GridDTO.SortField)] = fieldName;
 
@@ -90,9 +90,9 @@ namespace TransportationManagementSystem.Data.Grid
         // return a new dictionary that contains the same values as this dictionary.
         // needed so that pages can change the route values when calculating paging, sorting,
         // and filtering links, without changing the values of the current route
-        public RideDictionary Clone()
+        public TripDictionary Clone()
         {
-            var clone = new RideDictionary();
+            var clone = new TripDictionary();
             foreach (var key in Keys)
             {
                 clone.Add(key, this[key]);

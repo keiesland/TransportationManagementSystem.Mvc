@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace TransportationManagementSystem.Data.ExtensionMethods
+namespace TransportationManagementSystem.Mvc.Data.ExtensionMethods
 {
     // a series of extension methods that make it easier to create slugs, compare strings, capitalize strings, 
     // and cast a string to an int. Note that the EqualsNoCase() method doesn't work in EF Core code such as

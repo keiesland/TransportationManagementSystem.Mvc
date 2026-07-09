@@ -1,12 +1,8 @@
-﻿using TransportationManagementSystem.Data.DTOs;
-using TransportationManagementSystem.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TransportationManagementSystem.Data.ExtensionMethods;
-using Microsoft.AspNetCore.Http;
+﻿using TransportationManagementSystem.Mvc.Data.DTOs;
+using TransportationManagementSystem.Mvc.Data.ExtensionMethods;
+using TransportationManagementSystem.Mvc.Entities;
 
-namespace TransportationManagementSystem.Data.Grid
+namespace TransportationManagementSystem.Mvc.Data.Grid
 {
     // inherits the general purpose GridBuilder class and adds application-specific 
     // methods for loading and clearing filter route segments in route dictionary.

@@ -1,6 +1,6 @@
-﻿using TransportationManagementSystem.Data.Query;
+﻿using TransportationManagementSystem.Mvc.Data.Query;
 
-namespace TransportationManagementSystem.Repositories.Interfaces
+namespace TransportationManagementSystem.Mvc.Repositories.Interfaces
 {
 
     /// <summary>

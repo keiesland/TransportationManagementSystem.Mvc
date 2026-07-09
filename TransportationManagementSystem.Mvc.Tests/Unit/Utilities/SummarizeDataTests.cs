@@ -1,8 +1,7 @@
-﻿
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.UtilityClasses;
+﻿using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Utilities;
 
-namespace TransportationManagementSystem.Tests.Unit.Utilities
+namespace TransportationManagementSystem.Mvc.Tests.Unit.Utilities
 {
     public class SummarizeDataTests
     {

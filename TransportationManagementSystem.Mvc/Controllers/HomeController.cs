@@ -1,13 +1,7 @@
-using TransportationManagementSystem.UtilityClasses;
-using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using TransportationManagementSystem.Services.Interfaces;
-using TransportationManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
 
-namespace TransportationManagementSystem.Controllers
+namespace TransportationManagementSystem.Mvc.Controllers
 {
     public class HomeController : Controller
     {

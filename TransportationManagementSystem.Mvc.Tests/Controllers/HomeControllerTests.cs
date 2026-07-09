@@ -1,13 +1,9 @@
-﻿using System.Drawing.Text;
-using TransportationManagementSystem.Controllers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System.Security.Claims;
-using TransportationManagementSystem.Repositories.Interfaces;
-using TransportationManagementSystem.Services.Interfaces;
+using TransportationManagementSystem.Mvc.Controllers;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
 
-namespace TransportationManagementSystem.Tests.Controllers
+namespace TransportationManagementSystem.Mvc.Tests.Controllers
 {
     public class HomeControllerTests
     {

@@ -1,80 +1,80 @@
-﻿using EFCore.BulkExtensions;
-using TransportationManagementSystem.UtilityClasses;
-using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Data.Query;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Services.Interfaces;
-using TransportationManagementSystem.UtilityClasses;
-using NPOI.HSSF.UserModel;
+﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using TransportationManagementSystem.UnitOfWork;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Data.DTOs;
+using TransportationManagementSystem.Mvc.Data.Query;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
+using TransportationManagementSystem.Mvc.UnitOfWork;
+using TransportationManagementSystem.Mvc.Utilities;
 
-namespace TransportationManagementSystem.Services
+namespace TransportationManagementSystem.Mvc.Services
 {
     public class FileImportService : IFileImportService
     {
-        private readonly TripUnitOfWork _data;
+        private readonly ITripUnitOfWork _data;
+        private readonly IAggregationService _aggregationService;
+        private readonly IValidationService _validationService;
 
-        public FileImportService(TripContext context)
+        public FileImportService(
+            ITripUnitOfWork data,
+            IAggregationService aggregationService,
+            IValidationService validationService)
         {
-            _data = new TripUnitOfWork(context);
+            _data = data;
+            _aggregationService = aggregationService;
+            _validationService = validationService;
         }
 
-        /// <summary>
-        /// Imports trips from an Excel file stream, clearing existing trip data first.
-        /// Returns the number of trips imported.
-        /// </summary>
-        public async Task<int> ImportTripsAsync(Stream fileStream, string fileExtension, CancellationToken ct)
+        public async Task<ImportResult> ImportTripsAsync(Stream fileStream, string fileExtension, CancellationToken ct)
         {
-            // Clear existing trips before import
-            await DeleteRecords.DeleteAllTripsAsync(_data, ct);
-
-            // Load existing drivers and dates into memory ONCE before the loop
-            var existingDrivers = (await _data.Drivers.ListAsync(
-                    new QueryOptions<Driver>(), ct))
-                .ToDictionary(d => d.FullName);
-
-            var existingDates = (await _data.TripDates.ListAsync(
-                    new QueryOptions<TripDate>(), ct))
-                .ToDictionary(d => d.Date.Date);
-
-            // Parse the worksheet — NPOI's parse itself is sync (no async API), but
-            // everything that touches the database below it is fully async
+            // Parse only -- no database writes yet.
             ISheet sheet = fileExtension == ".xls"
                 ? (ISheet)new HSSFWorkbook(fileStream).GetSheetAt(0)
                 : new XSSFWorkbook(fileStream).GetSheetAt(0);
 
-            var tripList = await ParseTripsFromSheetAsync(sheet, existingDrivers, existingDates, ct);
+            var rows = ParseRowsFromSheet(sheet);
 
-            // Bulk insert all parsed trips
-            await BulkInsertTripsAsync(tripList, ct);
+            var driverDays = _aggregationService.Aggregate(rows);
+            var validationResult = _validationService.Validate(driverDays);
 
-            return tripList.Count;
+            if (!validationResult.IsValid)
+            {
+                return new ImportResult
+                {
+                    IsValid = false,
+                    ImportedCount = 0,
+                    Errors = validationResult.Errors
+                };
+            }
+
+            // Validation passed -- now it's safe to touch the database.
+            var importedCount = await PersistRowsAsync(rows, ct);
+
+            return new ImportResult
+            {
+                IsValid = true,
+                ImportedCount = importedCount
+            };
         }
 
         // ========== Private Helper Methods ==========
 
         /// <summary>
-        /// Parses trip rows from the worksheet, creating new Driver/TripDate records as needed
+        /// Parses trip rows from the worksheet into plain DTOs -- no database
+        /// access, no Driver/TripDate creation. Safe to run before validation.
         /// </summary>
-        private async Task<List<Trip>> ParseTripsFromSheetAsync(
-            ISheet sheet,
-            Dictionary<string, Driver> existingDrivers,
-            Dictionary<DateTime, TripDate> existingDates,
-            CancellationToken ct)
+        private List<TripImportRow> ParseRowsFromSheet(ISheet sheet)
         {
-            var tripList = new List<Trip>();
+            var rows = new List<TripImportRow>();
 
             for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
             {
-                ct.ThrowIfCancellationRequested();
-
                 IRow row = sheet.GetRow(i);
                 if (row == null) continue;
                 if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
 
-                // Safely read times — skip row if critical cells are missing
                 var pickupArrival = GetTimeSpan(row, 4);
                 var actualPickup = GetTimeSpan(row, 5);
                 var actualDropoff = GetTimeSpan(row, 6);
@@ -84,39 +84,69 @@ namespace TransportationManagementSystem.Services
                 var driverName = row.GetCell(0)?.ToString()?.Trim();
                 if (string.IsNullOrEmpty(driverName)) continue;
 
-                var driver = await GetOrCreateDriverAsync(driverName, existingDrivers, ct);
                 var tripDate = row.GetCell(1).DateCellValue.Date;
-                var tripDateEntity = await GetOrCreateTripDateAsync(tripDate, existingDates, ct);
+
+                rows.Add(new TripImportRow
+                {
+                    Driver = driverName,
+                    TripDate = tripDate,
+                    WeekNumber = System.Globalization.ISOWeek.GetWeekOfYear(tripDate),
+                    TripActualStartTime = GetTimeSpan(row, 2) ?? TimeSpan.Zero,
+                    ScheduledPickupTime = GetTimeSpan(row, 3) ?? TimeSpan.Zero,
+                    PickupArrivalTime = pickupArrival ?? TimeSpan.Zero,
+                    ActualPickupTime = actualPickup ?? TimeSpan.Zero,
+                    ActualDropoffTime = actualDropoff ?? TimeSpan.Zero,
+                    ScheduledDropoffTime = GetTimeSpan(row, 7) ?? TimeSpan.Zero,
+                    TripActualEndTime = GetTimeSpan(row, 8) ?? TimeSpan.Zero
+                });
+            }
+
+            return rows;
+        }
+
+        /// <summary>
+        /// Only called after validation passes. Deletes existing trips, resolves
+        /// (or creates) Driver/TripDate rows, and bulk-inserts the new trips.
+        /// </summary>
+        private async Task<int> PersistRowsAsync(List<TripImportRow> rows, CancellationToken ct)
+        {
+            await DeleteRecords.DeleteAllTripsAsync(_data, ct);
+
+            var existingDrivers = (await _data.Drivers.ListAsync(new QueryOptions<Driver>(), ct))
+                .ToDictionary(d => d.FullName);
+            var existingDates = (await _data.TripDates.ListAsync(new QueryOptions<TripDate>(), ct))
+                .ToDictionary(d => d.Date.Date);
+
+            var tripList = new List<Trip>();
+
+            foreach (var row in rows)
+            {
+                var driver = await GetOrCreateDriverAsync(row.Driver, existingDrivers, ct);
+                var tripDateEntity = await GetOrCreateTripDateAsync(row.TripDate, existingDates, ct);
 
                 tripList.Add(new Trip
                 {
                     DriverId = driver.DriverId,
                     TripDateId = tripDateEntity.TripDateId,
-                    TripActualStart = GetTimeSpan(row, 2) ?? TimeSpan.Zero,
-                    ScheduledPickup = GetTimeSpan(row, 3) ?? TimeSpan.Zero,
-                    PickupArrival = pickupArrival ?? TimeSpan.Zero,
-                    ActualPickup = actualPickup ?? TimeSpan.Zero,
-                    ActualDropoff = actualDropoff ?? TimeSpan.Zero,
-                    ScheduledDropoff = GetTimeSpan(row, 7) ?? TimeSpan.Zero,
-                    TripActualEnd = GetTimeSpan(row, 8) ?? TimeSpan.Zero
+                    TripActualStart = row.TripActualStartTime,
+                    ScheduledPickup = row.ScheduledPickupTime,
+                    PickupArrival = row.PickupArrivalTime,
+                    ActualPickup = row.ActualPickupTime,
+                    ActualDropoff = row.ActualDropoffTime,
+                    ScheduledDropoff = row.ScheduledDropoffTime,
+                    TripActualEnd = row.TripActualEndTime
                 });
             }
 
-            return tripList;
+            await _data.Trips.BulkInsertAsync(tripList, ct);
+            return tripList.Count;
         }
 
-        /// <summary>
-        /// Looks up driver in cache dictionary, or creates and persists a new one
-        /// </summary>
         private async Task<Driver> GetOrCreateDriverAsync(
-            string driverName,
-            Dictionary<string, Driver> existingDrivers,
-            CancellationToken ct)
+            string driverName, Dictionary<string, Driver> existingDrivers, CancellationToken ct)
         {
             if (existingDrivers.TryGetValue(driverName, out var driver))
-            {
                 return driver;
-            }
 
             var names = driverName.Split(", ");
             var newDriver = new Driver
@@ -127,28 +157,19 @@ namespace TransportationManagementSystem.Services
             };
 
             _data.Drivers.Insert(newDriver);
-            await _data.SaveAsync(ct); // Needed immediately to get the generated DriverId
+            await _data.SaveAsync(ct);
 
             existingDrivers[driverName] = newDriver;
             return newDriver;
         }
 
-        /// <summary>
-        /// Looks up trip date in cache dictionary, or creates and persists a new one
-        /// </summary>
         private async Task<TripDate> GetOrCreateTripDateAsync(
-            DateTime tripDate,
-            Dictionary<DateTime, TripDate> existingDates,
-            CancellationToken ct)
+            DateTime tripDate, Dictionary<DateTime, TripDate> existingDates, CancellationToken ct)
         {
             if (existingDates.TryGetValue(tripDate, out var tripDateEntity))
-            {
                 return tripDateEntity;
-            }
 
-            // Calculate week number from date — don't trust the Excel formula
             int weekNumber = System.Globalization.ISOWeek.GetWeekOfYear(tripDate);
-
             var newDate = new TripDate { Date = tripDate, WeekNumber = weekNumber };
             _data.TripDates.Insert(newDate);
             await _data.SaveAsync(ct);
@@ -157,20 +178,6 @@ namespace TransportationManagementSystem.Services
             return newDate;
         }
 
-        /// <summary>
-        /// Bulk inserts the parsed trip list using the repository's bulk operation
-        /// </summary>
-        private async Task BulkInsertTripsAsync(List<Trip> tripList, CancellationToken ct)
-        {
-            await _data.Trips.BulkInsertAsync(tripList, ct);
-        }
-
-        /// <summary>
-        /// Safely reads a TimeSpan from a cell — returns null instead of throwing on bad cells.
-        /// Handles both native Excel time/numeric cells AND text cells containing a time
-        /// string like "13:00:00" (some source files store time columns as text rather
-        /// than native Excel time values).
-        /// </summary>
         private TimeSpan? GetTimeSpan(IRow row, int cellIndex)
         {
             try
@@ -182,12 +189,8 @@ namespace TransportationManagementSystem.Services
                 {
                     var text = cell.StringCellValue?.Trim();
                     if (string.IsNullOrEmpty(text)) return null;
-
                     if (TimeSpan.TryParse(text, out var parsed))
-                    {
                         return parsed == TimeSpan.Zero ? null : parsed;
-                    }
-
                     return null;
                 }
 
@@ -200,7 +203,4 @@ namespace TransportationManagementSystem.Services
             }
         }
     }
-
-
-
 }

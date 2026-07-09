@@ -20,10 +20,18 @@
     return false;
     }
     }
+
     var fdata = new FormData();
     var fileUpload = $("#fileupload").get(0);
     var files = fileUpload.files;
     fdata.append(files[0].name, files[0]);
+
+    var $btn = $('#btnupload');
+    var $spinner = $('#uploadSpinner');
+    var originalLabel = $btn.val();
+    $btn.prop('disabled', true).val('Uploading...');
+    $spinner.show();
+
     $.ajax({
     type: "POST",
     url: "/File/Import",
@@ -37,15 +45,19 @@
     success: function (response) {
     if (response.length == 0)
     alert('Some error occured while uploading');
-    else {
+    else
     $('#divPrint').html(response);
-    }
     },
     error: function (e) {
     $('#divPrint').html(e.responseText);
+    },
+    complete: function () {
+    $btn.prop('disabled', false).val(originalLabel);
+    $spinner.hide();
     }
     });
     })
+
     $('#btnExport').on('click', function () {
     var fileExtension = ['xls', 'xlsx'];
     var filename = $('#fileupload').val();
@@ -55,8 +67,8 @@
     }
     });
     });
-
 </script>
+
 <form asp-controller="File">
     <div class="container">
         <div class="clearfix">&nbsp;</div>
@@ -66,6 +78,7 @@
             </div>
             <div class="col-md-1">
                 <input type="button" name="Upload" value="Upload" id="btnupload" asp-action="Import" class="btn bg-custom" />
+                <span id="uploadSpinner" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true" style="display: none;"></span>
             </div>
         </div>
         <div class="clearfix">&nbsp;</div>
@@ -75,3 +88,4 @@
         </div>
     </div>
 </form>
+

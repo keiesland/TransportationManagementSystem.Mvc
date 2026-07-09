@@ -1,11 +1,9 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using TransportationManagementSystem.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
-using Xunit;
+﻿using Microsoft.EntityFrameworkCore;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.UnitOfWork;
 
-namespace TransportationManagementSystem.Tests.Data
+namespace TransportationManagementSystem.Mvc.Tests.Data
 {
     public class TripUnitOfWorkTests
     {

@@ -1,12 +1,12 @@
-﻿using TransportationManagementSystem.Data.Grid;
-using TransportationManagementSystem.Models;
+﻿using TransportationManagementSystem.Mvc.Data.Grid;
+using TransportationManagementSystem.Mvc.Entities;
 
-namespace TransportationManagementSystem.ViewModels
+namespace TransportationManagementSystem.Mvc.ViewModels
 {
     public class SummaryListViewModel
     {
         public IEnumerable<Summary> Summaries { get; set; }
-        public RideDictionary CurrentRoute { get; set; }
+        public TripDictionary CurrentRoute { get; set; }
         public int TotalPages { get; set; }
 
         public IEnumerable<Driver> Drivers { get; set; }

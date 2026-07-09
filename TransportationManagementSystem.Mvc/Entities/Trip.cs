@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TransportationManagementSystem.Models
+namespace TransportationManagementSystem.Mvc.Entities
 {
     public class Trip
     {

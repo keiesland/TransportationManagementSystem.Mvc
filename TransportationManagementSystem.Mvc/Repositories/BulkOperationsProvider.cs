@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using EFCore.BulkExtensions;
-using TransportationManagementSystem.Repositories.Interfaces;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
 
-namespace TransportationManagementSystem.Tests.TestHelpers
+
+namespace TransportationManagementSystem.Mvc.Repositories
 {
     /// <summary>
     /// Real implementation — thin pass-through to EFCore.BulkExtensions.

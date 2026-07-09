@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using ClosedXML.Excel;
-using TransportationManagementSystem.Services.Interfaces;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
 
-namespace TransportationManagementSystem.Services
+namespace TransportationManagementSystem.Mvc.Services
 {
     public class ExcelExportService : IExcelExportService
     {

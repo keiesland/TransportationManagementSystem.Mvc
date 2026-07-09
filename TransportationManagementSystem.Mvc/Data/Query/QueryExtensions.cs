@@ -1,4 +1,4 @@
-﻿namespace TransportationManagementSystem.Data.Query
+﻿namespace TransportationManagementSystem.Mvc.Data.Query
 {
     public static class QueryExtensions
     {

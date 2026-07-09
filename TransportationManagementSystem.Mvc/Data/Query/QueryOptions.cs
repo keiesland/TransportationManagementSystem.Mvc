@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace TransportationManagementSystem.Data.Query
+namespace TransportationManagementSystem.Mvc.Data.Query
 {
     public class QueryOptions<T>
     {

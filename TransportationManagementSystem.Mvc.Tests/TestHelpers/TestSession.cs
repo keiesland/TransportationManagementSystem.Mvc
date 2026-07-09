@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace TransportationManagementSystem.Tests.TestHelpers
+namespace TransportationManagementSystem.Mvc.Tests.TestHelpers
 {
     /// <summary>
     /// Minimal in-memory ISession fake for unit tests that need a real

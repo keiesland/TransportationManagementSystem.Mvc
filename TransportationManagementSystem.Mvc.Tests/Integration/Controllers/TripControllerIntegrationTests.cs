@@ -1,12 +1,7 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Models;
-using Microsoft.AspNetCore.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
+using TransportationManagementSystem.Mvc.Entities;
 
-namespace TransportationManagementSystem.Tests.Integration.Controllers
+namespace TransportationManagementSystem.Mvc.Tests.Integration.Controllers
 {
     public class TripControllerIntegrationTests : IClassFixture<TripControllerWebApplicationFactory>
     {

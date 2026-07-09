@@ -1,8 +1,7 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
-using TransportationManagementSystem.Data.Grid;
-using TransportationManagementSystem.Models;
+﻿using TransportationManagementSystem.Mvc.Data.Grid;
+using TransportationManagementSystem.Mvc.Entities;
 
-namespace TransportationManagementSystem.Data.Query
+namespace TransportationManagementSystem.Mvc.Data.Query
 {
     // extends generic QueryOptions<Trip> class to add a 
     // SortFilter() method that adds the Sort and Filter
@@ -21,8 +20,7 @@ namespace TransportationManagementSystem.Data.Query
             {
                 Where = t => t.TripDate.TripDateId.ToString() == builder.CurrentRoute.TripDateFilter;
             }
-
-
+            
             if (builder.IsSortByDriver)
             {
                 OrderBy = t => t.Driver.FirstName;

@@ -1,15 +1,12 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using TransportationManagementSystem.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TransportationManagementSystem.UnitOfWork;
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
+using TransportationManagementSystem.Mvc.UnitOfWork;
+using TransportationManagementSystem.Mvc.Utilities;
 
-namespace TransportationManagementSystem.Tests.Unit.Utilities
+namespace TransportationManagementSystem.Mvc.Tests.Unit.Utilities
 {
     public class SummarizeDriverDataAsyncTests
     {

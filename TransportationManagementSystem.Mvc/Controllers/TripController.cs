@@ -1,14 +1,8 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Data.DTOs;
-using TransportationManagementSystem.Data.Grid;
-using TransportationManagementSystem.Data.Query;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using TransportationManagementSystem.Services.Interfaces;
-using TransportationManagementSystem.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TransportationManagementSystem.Mvc.Data.DTOs;
+using TransportationManagementSystem.Mvc.Services.Interfaces;
 
-namespace TransportationManagementSystem.Controllers
+namespace TransportationManagementSystem.Mvc.Controllers
 {
     public class TripController : Controller
     {

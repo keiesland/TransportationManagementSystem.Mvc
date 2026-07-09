@@ -1,10 +1,10 @@
-﻿using TransportationManagementSystem.Data;
-using TransportationManagementSystem.Models;
-using TransportationManagementSystem.Repositories;
-using TransportationManagementSystem.Repositories.Interfaces;
-using TransportationManagementSystem.Tests.TestHelpers;
+﻿
+using TransportationManagementSystem.Mvc.Data;
+using TransportationManagementSystem.Mvc.Entities;
+using TransportationManagementSystem.Mvc.Repositories;
+using TransportationManagementSystem.Mvc.Repositories.Interfaces;
 
-namespace TransportationManagementSystem.UnitOfWork
+namespace TransportationManagementSystem.Mvc.UnitOfWork
 {
     public class TripUnitOfWork : ITripUnitOfWork
     {

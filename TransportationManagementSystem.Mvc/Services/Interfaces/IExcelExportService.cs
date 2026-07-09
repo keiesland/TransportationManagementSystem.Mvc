@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace TransportationManagementSystem.Services.Interfaces
+namespace TransportationManagementSystem.Mvc.Services.Interfaces
 {
     public interface IExcelExportService
     {
@@ -14,6 +14,5 @@ namespace TransportationManagementSystem.Services.Interfaces
         /// Each DataTable's TableName is used as its sheet name.
         /// </summary>
         Task<byte[]> BuildWorkbookAsync(DataTable[] sheets, CancellationToken ct = default);
-
     }
 }
