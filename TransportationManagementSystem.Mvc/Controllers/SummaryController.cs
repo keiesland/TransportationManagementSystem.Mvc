@@ -25,12 +25,6 @@ namespace TransportationManagementSystem.Mvc.Controllers
             return View(vm);
         }
 
-        public async Task<ViewResult> Details(int id, CancellationToken ct)
-        {
-            var summary = await _summaryService.GetSummaryDetailsAsync(id, ct);
-            return View(summary);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<RedirectToActionResult> Filter(string[] filter, bool clear = false, CancellationToken ct = default)

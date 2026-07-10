@@ -19,68 +19,12 @@ namespace TransportationManagementSystem.Mvc.Services
         private readonly IExcelExportService _excelExportService;
 
         private static TimeSpan RoundToMinute(TimeSpan value) =>
-    TimeSpan.FromMinutes(Math.Round(value.TotalMinutes));
+              TimeSpan.FromMinutes(Math.Round(value.TotalMinutes));
 
         public SummaryService(TripContext context, IExcelExportService excelExportService)
         {
             _data = new TripUnitOfWork(context);
             _excelExportService = excelExportService;
-        }
-
-        public SummaryResult Summarize(List<DriverDay> driverDays)
-        {
-            // Ensure chronological order per driver -- required for both the
-            // running weekly total AND for correctly detecting the last day of
-            // each driver's week (lesson learned from the TMS-Mvc TripDateId bug).
-            var orderedDays = driverDays
-                .OrderBy(d => d.Driver)
-                .ThenBy(d => d.TripDate)
-                .ToList();
-
-            var weeklyTotals = new Dictionary<(string Driver, int Week), TimeSpan>();
-            var summaries = new List<DriverDaySummary>();
-
-            for (int i = 0; i < orderedDays.Count; i++)
-            {
-                var day = orderedDays[i];
-
-                var start = RoundToMinute(day.Start);
-                var end = RoundToMinute(day.End);
-
-                var breaks = day.Breaks
-                    .Select(b => (Out: RoundToMinute(b.Out), In: RoundToMinute(b.In)))
-                    .ToList();
-
-                var totalBreakTime = TimeSpan.FromMinutes(
-                    breaks.Sum(b => (b.In - b.Out).TotalMinutes));
-
-                var paidTime = (end - start) - totalBreakTime;
-
-                var key = (day.Driver, day.WeekNumber);
-                var runningWeekly = RoundToMinute(weeklyTotals.GetValueOrDefault(key) + paidTime);
-                weeklyTotals[key] = runningWeekly;
-
-                // Only stamp the weekly total when this is the last day of this
-                // driver's week -- i.e. the next day (if any) belongs to a
-                // different driver or a different week.
-                bool isLastDayOfWeek = i == orderedDays.Count - 1
-                    || orderedDays[i + 1].Driver != day.Driver
-                    || orderedDays[i + 1].WeekNumber != day.WeekNumber;
-
-                summaries.Add(new DriverDaySummary
-                {
-                    Driver = day.Driver,
-                    RideDate = day.TripDate,
-                    WeekNumber = day.WeekNumber,
-                    Start = start,
-                    End = end,
-                    Breaks = breaks,
-                    PaidTime = paidTime,
-                    WeeklyTime = isLastDayOfWeek ? runningWeekly : (TimeSpan?)null
-                });
-            }
-
-            return new SummaryResult { Summaries = summaries };
         }
 
         /// <summary>

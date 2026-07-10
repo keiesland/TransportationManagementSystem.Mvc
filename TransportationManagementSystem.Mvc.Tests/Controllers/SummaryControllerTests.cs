@@ -49,17 +49,6 @@ namespace TransportationManagementSystem.Mvc.Tests.Controllers
         }
 
         [Fact]
-        public async Task Details_ReturnsViewResult_WithCorrectViewModelAsync()
-        {
-            _mockSummaryService
-                .Setup(s => s.GetSummaryDetailsAsync(1, CancellationToken.None));
-
-            var result = await _controller.Details(1, CancellationToken.None);
-
-            var viewResult = Assert.IsType<ViewResult>(result);
-        }
-
-        [Fact]
         public async Task Filter_InvokesApplyFilterAsync_AndRedirectsToList()
         {
             string[] testFilters = new[] { "destination", "price" };
