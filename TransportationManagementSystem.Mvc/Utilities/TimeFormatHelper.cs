@@ -10,7 +10,7 @@
         public static string FormatTimeSpan(TimeSpan value)
         {
             var totalHours = (int)value.TotalHours;
-            return $"{totalHours:00}:{value.Minutes:00}:{value.Seconds:00}";
+            return $"{totalHours:00}:{value.Minutes:00}";
         }
 
         /// <summary>

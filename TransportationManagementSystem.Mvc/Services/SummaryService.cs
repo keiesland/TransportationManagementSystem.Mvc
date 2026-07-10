@@ -214,18 +214,18 @@ namespace TransportationManagementSystem.Mvc.Services
                 dt.Rows.Add(
                     summary.Driver.FullName,
                     summary.TripDate.Date,
-                    summary.Start,
-                    summary.Out1,
-                    summary.In1,
-                    summary.Out2,
-                    summary.In2,
-                    summary.Out3,
-                    summary.In3,
-                    summary.Out4,
-                    summary.In4,
-                    summary.End,
-                    summary.ActualTime,
-                    summary.WeeklyTime);
+                    TimeFormatHelper.FormatTimeSpan(summary.Start),
+                    TimeFormatHelper.FormatTimeSpan(summary.Out1),
+                    TimeFormatHelper.FormatTimeSpan(summary.In1),
+                    TimeFormatHelper.FormatTimeSpan(summary.Out2),
+                    TimeFormatHelper.FormatTimeSpan(summary.In2),
+                    TimeFormatHelper.FormatTimeSpan(summary.Out3),
+                    TimeFormatHelper.FormatTimeSpan(summary.In3),
+                    TimeFormatHelper.FormatTimeSpan(summary.Out4),
+                    TimeFormatHelper.FormatTimeSpan(summary.In4),
+                    TimeFormatHelper.FormatTimeSpan(summary.End),
+                    TimeFormatHelper.FormatTimeSpan(summary.ActualTime),
+                    summary.WeeklyTime); // already a string
             }
 
             // Hand the DataTable off to the reusable Excel export service

@@ -1,6 +1,7 @@
 ﻿
 @using TransportationManagementSystem.Mvc.Data.DTOs
 @using TransportationManagementSystem.Mvc.Data.Grid
+@using TransportationManagementSystem.Mvc.Utilities
 @using TransportationManagementSystem.Mvc.ViewModels
 @model TransportationManagementSystem.Mvc.ViewModels.TripListViewModel
 
@@ -69,15 +70,15 @@
                 <td>
                     <a type="hidden" asp-action="Details" asp-route-id="@trip.TripId"></a>
                 </td>
-                <td>@trip.Driver.FullName</td>
+                <td>>@trip.Driver.FullName</td>
                 <td>@trip.TripDate.Date.ToShortDateString()</td>
-                <td>@trip.TripActualStart</td>
-                <td>@trip.ScheduledPickup</td>
-                <td>@trip.PickupArrival</td>
-                <td>@trip.ActualPickup</td>
-                <td>@trip.ActualDropoff</td>
-                <td>@trip.ScheduledDropoff</td>
-                <td>@trip.TripActualEnd</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(trip.TripActualStart)</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(trip.ScheduledPickup)</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(trip.PickupArrival)</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(trip.ActualPickup)</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(trip.ActualDropoff)</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(trip.ScheduledDropoff)</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(trip.TripActualEnd)</td>
             </tr>
         }
     </tbody>

@@ -29,23 +29,34 @@ namespace TransportationManagementSystem.Mvc.Tests.Controllers
             };
             _controller.HttpContext.Session = _mockSession.Object;
         }
-        
+
         [Fact]
         public async Task List_ReturnsViewResult_WithCorrectViewModelAsync()
         {
             var dtoValues = new SummaryGridDTO();
-            var expectedVm = new SummaryListViewModel( );
+            var expectedVm = new SummaryListViewModel();
 
             _mockSummaryService
                 .Setup(s => s.GetSummariesForListAsync(dtoValues, _mockSession.Object, CancellationToken.None))
                 .ReturnsAsync(expectedVm);
-            
+
             var result = await _controller.List(dtoValues, CancellationToken.None);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<SummaryListViewModel>(viewResult.ViewData.Model);
 
             Assert.Same(expectedVm, model);
+        }
+
+        [Fact]
+        public async Task Details_ReturnsViewResult_WithCorrectViewModelAsync()
+        {
+            _mockSummaryService
+                .Setup(s => s.GetSummaryDetailsAsync(1, CancellationToken.None));
+
+            var result = await _controller.Details(1, CancellationToken.None);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
@@ -64,7 +75,7 @@ namespace TransportationManagementSystem.Mvc.Tests.Controllers
 
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("List", redirectResult.ActionName);
-            Assert.Null(redirectResult.ControllerName); 
+            Assert.Null(redirectResult.ControllerName);
         }
 
         [Fact]

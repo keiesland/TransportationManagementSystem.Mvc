@@ -1,5 +1,6 @@
 ﻿@using TransportationManagementSystem.Mvc.Data.DTOs
 @using TransportationManagementSystem.Mvc.Data.Grid
+@using TransportationManagementSystem.Mvc.Utilities
 @using TransportationManagementSystem.Mvc.ViewModels
 @model TransportationManagementSystem.Mvc.ViewModels.SummaryListViewModel
 
@@ -49,7 +50,7 @@
         that route dictionary and the current route to create route segments for sorting link *@
     <thead class="thead-dark">
         <tr>
-            <th>
+          <th>
                 @{
                     routes.SetSortAndDirection(nameof(Summary.Driver.FullName), current);
                 }
@@ -81,57 +82,57 @@
                 </td>
                 <td>@summary.Driver.FullName</td>
                 <td>@summary.TripDate.Date.ToShortDateString()</td>
-                <td>@summary.Start</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(summary.Start)</td>
                 <td>
                     @if (summary.Out1 != TimeSpan.Zero)
                     {
-                        @summary.Out1
+                        @TimeFormatHelper.FormatTimeSpan(summary.Out1)
                     }
                 </td>
                 <td>
                     @if (summary.In1 != TimeSpan.Zero)
                     {
-                        @summary.In1
+                        @TimeFormatHelper.FormatTimeSpan(summary.In1)
                     }
                 </td>
                 <td>
                     @if (summary.Out2 != TimeSpan.Zero)
                     {
-                        @summary.Out2
+                        @TimeFormatHelper.FormatTimeSpan(summary.Out2)
                     }
                 </td>
                 <td>
                     @if (summary.In2 != TimeSpan.Zero)
                     {
-                        @summary.In2
+                        @TimeFormatHelper.FormatTimeSpan(summary.In2)
                     }
                 </td>
                 <td>
                     @if (summary.Out3 != TimeSpan.Zero)
                     {
-                        @summary.Out3
+                        @TimeFormatHelper.FormatTimeSpan(summary.Out3)
                     }
                 </td>
                 <td>
                     @if (summary.In3 != TimeSpan.Zero)
                     {
-                        @summary.In3
+                        @TimeFormatHelper.FormatTimeSpan(summary.In3)
                     }
                 </td>
                 <td>
                     @if (summary.Out4 != TimeSpan.Zero)
                     {
-                        @summary.Out4
+                        @TimeFormatHelper.FormatTimeSpan(summary.Out4)
                     }
                 </td>
                 <td>
                     @if (summary.In4 != TimeSpan.Zero)
                     {
-                        @summary.In4
+                        @TimeFormatHelper.FormatTimeSpan(summary.In4)
                     }
                 </td>
-                <td>@summary.End</td>
-                <td>@summary.ActualTime</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(summary.End)</td>
+                <td>@TimeFormatHelper.FormatTimeSpan(summary.ActualTime)</td>
                 <td>@summary.WeeklyTime</td>
             </tr>
         }
