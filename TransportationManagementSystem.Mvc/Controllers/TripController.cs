@@ -21,18 +21,6 @@ namespace TransportationManagementSystem.Mvc.Controllers
             return View(vm);
         }
 
-        public IActionResult Details(int id)
-        {
-            var trip = _tripService.GetTripDetails(id);
-
-            if (trip == null)
-            {
-                return NotFound();
-            }
-
-            return View(trip);
-        }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -64,23 +64,6 @@ namespace TransportationManagementSystem.Mvc.Tests.Controllers
         }
 
         [Fact]
-        public void Details_ReturnsViewResult_WithCorrectView()
-        {
-            var id = 1;
-            var trip = new Trip();
-          
-            _mockTripService
-                .Setup(s => s.GetTripDetails(id))
-                .Returns(trip);
-      
-            var result = _controller.Details(id);
-
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<Trip>(viewResult.ViewData.Model);
-            Assert.Same(trip, model); 
-        }
-
-        [Fact]
         public void Filter_InvokesApplyFilter_AndRedirectsToList()
         {
             string[] testFilters = new[] { "destination", "price" };

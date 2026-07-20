@@ -50,13 +50,6 @@
         that route dictionary and the current route to create route segments for sorting link *@
     <thead class="thead-dark">
         <tr>
-          <th>
-                @{
-                    routes.SetSortAndDirection(nameof(Summary.Driver.FullName), current);
-                }
-                <a asp-action="List" asp-all-route-data="@routes"
-                   style="color:aqua"></a>
-            </th>
             <th>Driver</th>
             <th>Date</th>
             <th>Start</th>
@@ -77,9 +70,6 @@
         @foreach (Summary summary in Model.Summaries)
         {
             <tr>
-                <td>
-                    <a type="hidden" asp-action="Details" asp-route-id="@summary.SummaryId"></a>
-                </td>
                 <td>@summary.Driver.FullName</td>
                 <td>@summary.TripDate.Date.ToShortDateString()</td>
                 <td>@TimeFormatHelper.FormatTimeSpan(summary.Start)</td>
