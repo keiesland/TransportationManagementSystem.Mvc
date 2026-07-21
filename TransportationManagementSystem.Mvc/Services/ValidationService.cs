@@ -47,18 +47,18 @@ namespace TransportationManagementSystem.Mvc.Services
                     });
                 }
 
-                //foreach (var trip in workingTrips)
-                //{
-                //    if (trip.ActualDropoffTime <= trip.ActualPickupTime)
-                //    {
-                //        errors.Add(new ValidationError
-                //        {
-                //            Driver = day.Driver,
-                //            TripDate = day.TripDate,
-                //            Message = $"Dropoff ({trip.ActualDropoffTime}) is before or equal to pickup ({trip.ActualPickupTime})."
-                //        });
-                //    }
-                //}
+                foreach (var trip in workingTrips)
+                {
+                    if (trip.ActualDropoffTime < trip.ActualPickupTime)
+                    {
+                        errors.Add(new ValidationError
+                        {
+                            Driver = day.Driver,
+                            TripDate = day.TripDate,
+                            Message = $"DropOff ({trip.ActualDropoffTime}) is prior to pickup ({trip.ActualPickupTime})."
+                        });
+                    }
+                }
             }
 
             return new ValidationResult

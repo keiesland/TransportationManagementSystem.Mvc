@@ -29,6 +29,17 @@ against real production data, not by code review alone.
 - **Architecture:** Clean Architecture — Service / Repository / Unit of Work, with a rich domain model at its core
 - **Patterns:** Generic Repository, Unit of Work, Dependency Injection, Domain Model (not anemic)
 
+## Contents
+
+- Overview
+- Features
+- Technologies
+- Architecture
+- Project Structure
+- Business Rules
+- Testing
+- Running the Project
+
 ## Architecture Highlights
 
 ### The DriverDay Domain Model
@@ -98,38 +109,35 @@ application, and diffing the output against the original production summary line
 was explained and resolved — not left as "close enough."
 
 ## Project Structure
-TransportationManagementSystem.Mvc/
-├── Controllers/
-├── Entities/                  # EF Core entities (Trip, Driver, TripDate, Summary)
-├── Domain/                    # DriverDay, TripSegment -- framework-free business logic
-├── Services/
-│   ├── Interfaces/
-│   ├── AggregationService.cs
-│   ├── ValidationService.cs
-│   ├── FileImportService.cs
-│   └── ExcelExportService.cs
-├── Repositories/
-│   ├── IRepository.cs
-│   ├── Repository.cs
-│   ├── IBulkOperationsProvider.cs
-│   └── EfCoreBulkOperationsProvider.cs
-├── UnitOfWork/
-│   ├── ITripUnitOfWork.cs
-│   └── TripUnitOfWork.cs
-├── Data/
-│   ├── DTOs/
-│   └── Query/                 # QueryOptions<T>, filtering/sorting/paging
-├── Utilities/
-│   ├── DriverDayGrouper.cs
-│   ├── SummaryBuilder.cs
-│   └── TimeFormatHelper.cs
-└── Views/
-TransportationManagementSystem.Mvc.Tests/
-└── Unit/
-├── Domain/                # DriverDay.Start/End/Breaks, against real verified data
-├── Services/
-├── Utilities/
-└── Controllers/
+
+## Project Structure
+
+```text
+TransportationManagementSystem.Mvc
+│
+├── Controllers
+├── Domain
+│   ├── DriverDay
+│   └── TripSegment
+├── Services
+│   ├── AggregationService
+│   ├── ValidationService
+│   ├── FileImportService
+│   └── ExcelExportService
+├── Repositories
+├── UnitOfWork
+├── Data
+├── Utilities
+└── Views
+
+TransportationManagementSystem.Mvc.Tests
+│
+└── Unit
+    ├── Domain
+    ├── Services
+    ├── Utilities
+    └── Controllers
+```
 
 ## Running the Project
 
